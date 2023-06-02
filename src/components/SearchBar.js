@@ -3,7 +3,7 @@ import "./SearchBar.css";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
-  const { term, setTerm } = useState("");
+  const [term, setTerm] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
