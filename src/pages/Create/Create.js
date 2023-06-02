@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Create.css";
 import { UseFetch } from "../../hooks/UseFetch";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -14,13 +15,15 @@ export default function Create() {
     "POST"
   );
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     postData({
       title,
       ingredients,
       method,
-      cookingTime: cookingTime + "minutes",
+      cookingTime: cookingTime + " minutes",
     });
   };
 
@@ -31,6 +34,13 @@ export default function Create() {
     }
     setNewIngredient("");
   };
+
+  useEffect(() => {
+    if (data) {
+      navigate("/");
+    }
+  }, [data]);
+
   return (
     <div className="create">
       <h2 className="page-title">Add New Recipe</h2>
