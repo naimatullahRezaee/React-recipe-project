@@ -1,14 +1,35 @@
 import React, { useState } from "react";
 import "./Create.css";
+import { UseFetch } from "../../hooks/UseFetch";
 
 export default function Create() {
   const [title, setTitle] = useState("");
   const [method, setMethod] = useState("");
   const [cookingTime, setCookingTime] = useState("");
+  const [newIngredient, setNewIngredient] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+
+  const { postData, data, error } = UseFetch(
+    "  http://localhost:3000/recipes",
+    "POST"
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(title, method, cookingTime);
+    postData({
+      title,
+      ingredients,
+      method,
+      cookingTime: cookingTime + "minutes",
+    });
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (newIngredient && !ingredients.includes(newIngredient)) {
+      setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+    }
+    setNewIngredient("");
   };
   return (
     <div className="create">
@@ -23,6 +44,27 @@ export default function Create() {
             required
           />
         </label>
+
+        <label>
+          <span> Recipe Ingredients</span>
+          <div className="ingredients">
+            <input
+              type="text"
+              onChange={(e) => setNewIngredient(e.target.value)}
+              value={newIngredient}
+            />
+            <button onClick={handleAdd} className="btn">
+              Add
+            </button>
+          </div>
+        </label>
+        <p>
+          Current Ingredients:{" "}
+          {ingredients.map((i) => (
+            <em key={i}> {i}, </em>
+          ))}
+        </p>
+
         <label>
           <span>Recipe Method</span>
           <textarea
