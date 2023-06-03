@@ -8,10 +8,13 @@ import Search from "./pages/Search/Search";
 
 import "./App.css";
 import ThemeSelector from "./components/ThemeSelector";
+import { useTheme } from "./hooks/UseTheme";
 
 function App() {
+  const { mode } = useTheme();
+
   return (
-    <div className="App">
+    <div className={`App ${mode}`}>
       <BrowserRouter>
         <Navbar />
         <ThemeSelector />
